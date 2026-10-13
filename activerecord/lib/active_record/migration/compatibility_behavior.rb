@@ -22,11 +22,6 @@ module ActiveRecord
         @migration = migration
       end
 
-      def create_table(*args, **options)
-        options.delete(:_compat_injected_default)
-        super
-      end
-
       private
         attr_reader :migration
 

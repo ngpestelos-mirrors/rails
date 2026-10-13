@@ -1479,6 +1479,11 @@ module ActiveRecord
         { primary_key: true }
       end
 
+      # Whether to inject `default: nil` for an integer or bigint primary key.
+      def inject_legacy_primary_key_default?(type) # :nodoc:
+        [:integer, :bigint].include?(type)
+      end
+
       def assume_migrated_upto_version(version)
         version = version.to_i
         migration_context = pool.migration_context

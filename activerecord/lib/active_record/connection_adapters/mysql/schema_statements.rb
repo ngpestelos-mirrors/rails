@@ -43,6 +43,12 @@ module ActiveRecord
           end
         end
 
+        # A legacy bigint primary key was autoincremented as well, so only an
+        # integer one needs the default.
+        def inject_legacy_primary_key_default?(type)
+          type == :integer
+        end
+
         def update_table_definition(table_name, base)
           MySQL::Table.new(table_name, base)
         end

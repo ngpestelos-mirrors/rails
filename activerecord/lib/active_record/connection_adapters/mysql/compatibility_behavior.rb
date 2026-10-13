@@ -20,15 +20,6 @@ module ActiveRecord
             super(table_name, options: "ENGINE=InnoDB", **options)
           end
         end
-
-        class V5_0 < V5_1
-          def create_table(table_name, **options)
-            if options.delete(:_compat_injected_default) && options[:id] == :bigint
-              options.delete(:default)
-            end
-            super
-          end
-        end
       end
     end
   end

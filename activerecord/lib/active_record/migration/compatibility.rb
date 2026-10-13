@@ -288,10 +288,11 @@ module ActiveRecord
         end
 
         def create_table(table_name, **options)
-          if [:integer, :bigint].include?(options[:id]) && !options.key?(:default)
+          # Since 5.1 an integer-like primary key is autoincrement unless it has
+          # an explicit default. Setting one keeps it the plain integer column it
+          # was before 5.1.
+          if !options.key?(:default) && connection.inject_legacy_primary_key_default?(options[:id])
             options[:default] = nil
-            # Lets an adapter behavior tell this nil from a user-written `default: nil`.
-            options[:_compat_injected_default] = true
           end
 
           # Since 5.1 PostgreSQL adapter uses bigserial type for primary
